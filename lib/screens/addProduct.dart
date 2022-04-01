@@ -1,9 +1,15 @@
 import 'package:admin_plantshopee/constance/constance.dart';
+import 'package:admin_plantshopee/firebase/database.dart';
+import 'package:admin_plantshopee/model/plantModel.dart';
 import 'package:admin_plantshopee/screens/productScreen.dart';
 import 'package:flutter/material.dart';
 
 class AddProduct extends StatelessWidget {
-  const AddProduct({Key? key}) : super(key: key);
+  AddProduct({Key? key}) : super(key: key);
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final priceController = TextEditingController();
+  final quantityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +29,7 @@ class AddProduct extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              controller: titleController,
               decoration: InputDecoration(
                   hintText: 'Title',
                   filled: true,
@@ -33,6 +40,7 @@ class AddProduct extends StatelessWidget {
             ),
             kHeight18,
             TextField(
+                controller: descriptionController,
                 maxLines: 8,
                 decoration: InputDecoration(
                   hintText: "Description",
@@ -46,8 +54,10 @@ class AddProduct extends StatelessWidget {
                 )),
             kHeight18,
             TextFormField(
+              controller: priceController,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                  hintText: 'Prise',
+                  hintText: 'Price',
                   filled: true,
                   fillColor: Colors.grey.shade300,
                   border: const OutlineInputBorder(
@@ -61,6 +71,8 @@ class AddProduct extends StatelessWidget {
                 SizedBox(
                   width: size.width * 0.44,
                   child: TextFormField(
+                    controller: quantityController,
+                      keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
@@ -75,7 +87,7 @@ class AddProduct extends StatelessWidget {
                 ),
                 SizedBox(
                   width: size.width * 0.3,
-                   height: 40,
+                  height: 40,
                   child: ElevatedButton(
                       onPressed: () {}, child: const Text('Add Image')),
                 )
@@ -121,8 +133,9 @@ class AddProduct extends StatelessWidget {
                                   // side: BorderSide(color: Colors.red)
                                 ))),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (ctx) => const ProducrScreen()));
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (ctx) => const ProducrScreen()));
+                              addToPlantModel();
                             },
                             child: const Text('Add Product')),
                       )
@@ -135,5 +148,19 @@ class AddProduct extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  addToPlantModel() {
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
+    final price = priceController.text.trim();
+    final quantity = quantityController.text.trim();
+
+    final plant = PlantModel(
+        title: title,
+        description: description,
+        price: double.parse(price),
+        quantity: int.parse(quantity));
+    addProduct(plant);
   }
 }

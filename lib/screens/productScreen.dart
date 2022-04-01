@@ -42,7 +42,7 @@ class ProducrScreen extends StatelessWidget {
                         ))),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => const AddProduct()));
+                          builder: (ctx) =>  AddProduct()));
                     },
                     child: const Text('Add Product'))
               ],
@@ -53,7 +53,7 @@ class ProducrScreen extends StatelessWidget {
                     itemBuilder: ((context, index) => ListTile(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => const AddProduct()));
+                                builder: (ctx) =>  AddProduct()));
                           },
                           leading: Image.network(
                               'https://images.pexels.com/photos/1002703/pexels-photo-1002703.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
