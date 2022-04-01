@@ -1,7 +1,7 @@
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/firebase/database.dart';
 import 'package:admin_plantshopee/model/plantModel.dart';
-import 'package:admin_plantshopee/screens/productScreen.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class AddProduct extends StatelessWidget {
@@ -10,6 +10,8 @@ class AddProduct extends StatelessWidget {
   final descriptionController = TextEditingController();
   final priceController = TextEditingController();
   final quantityController = TextEditingController();
+
+  FilePickerResult? image;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class AddProduct extends StatelessWidget {
                   width: size.width * 0.44,
                   child: TextFormField(
                     controller: quantityController,
-                      keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 18.0),
@@ -89,7 +91,18 @@ class AddProduct extends StatelessWidget {
                   width: size.width * 0.3,
                   height: 40,
                   child: ElevatedButton(
-                      onPressed: () {}, child: const Text('Add Image')),
+                      onPressed: () async {
+                        image = await FilePicker.platform.pickFiles(
+                            allowMultiple: false, type: FileType.image);
+                        if (image == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('No file selected')));
+                        }
+
+                        // storage.uploadFile(path!, fileName).then((value) => print('done'));
+                      },
+                      child: const Text('Add Image')),
                 )
               ],
             ),
@@ -135,7 +148,7 @@ class AddProduct extends StatelessWidget {
                             onPressed: () {
                               // Navigator.of(context).push(MaterialPageRoute(
                               //     builder: (ctx) => const ProducrScreen()));
-                              addToPlantModel();
+                              addToPlantModel(context);
                             },
                             child: const Text('Add Product')),
                       )
@@ -150,17 +163,35 @@ class AddProduct extends StatelessWidget {
     );
   }
 
-  addToPlantModel() {
+  addToPlantModel(BuildContext context) async {
     final title = titleController.text.trim();
     final description = descriptionController.text.trim();
     final price = priceController.text.trim();
     final quantity = quantityController.text.trim();
+    // final imageName = image!.files.single.name;
 
     final plant = PlantModel(
-        title: title,
-        description: description,
-        price: double.parse(price),
-        quantity: int.parse(quantity));
-    addProduct(plant);
+      title: title,
+      description: description,
+      price: double.parse(price),
+      quantity: int.parse(quantity),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Product Adding Please wait')));
+    await addProduct(plant, image!);
+    Navigator.pop(context);
   }
+
+  // pickImage() async {
+  //   try {
+  //     final ImagePicker _picker = ImagePicker();
+  //     final image = await _picker.pickImage(source: ImageSource.gallery);
+  //     if (image == null) return;
+  //     final imageTemp = File(image.path);
+  //     this.image = imageTemp;
+  //   } on PlatformException catch (e) {
+  //     print(e);
+  //   }
+  //   print(this.image);
+  // }
 }

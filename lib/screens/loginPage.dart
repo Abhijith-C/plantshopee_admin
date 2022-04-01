@@ -118,6 +118,20 @@ class LoginPage extends StatelessWidget {
   }
 
   logIn() async {
+//     try {
+//   UserCredential admin = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+//     email: "barry.allen@example.com",
+//     password: "SuperSecretPassword!"
+//   );
+// } on FirebaseAuthException catch (e) {
+//   if (e.code == 'weak-password') {
+//     print('The password provided is too weak.');
+//   } else if (e.code == 'email-already-in-use') {
+//     print('The account already exists for that email.');
+//   }
+// } catch (e) {
+//   print(e);
+// }
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
