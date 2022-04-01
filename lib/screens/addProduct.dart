@@ -5,7 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class AddProduct extends StatelessWidget {
-  AddProduct({Key? key}) : super(key: key);
+  PlantModel? data;
+  AddProduct({Key? key, this.data}) : super(key: key);
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final priceController = TextEditingController();
@@ -15,6 +16,12 @@ class AddProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (data != null) {
+      titleController.text = data!.title;
+      descriptionController.text = data!.description;
+      priceController.text = data!.price.toString();
+      quantityController.text = data!.quantity.toString();
+    }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -127,10 +134,17 @@ class AddProduct extends StatelessWidget {
 
                                   // side: BorderSide(color: Colors.red)
                                 ))),
-                            onPressed: () {
-                              Navigator.of(context).pop();
+                            onPressed: () async {
+                              if (data == null) {
+                                Navigator.of(context).pop();
+                              } else {
+                                Navigator.of(context).pop();
+                                await deleteProduct(data!.image!, data!.id);
+                              }
                             },
-                            child: const Text('Cancel')),
+                            child: data != null
+                                ? const Text('Delete')
+                                : const Text('Cancel')),
                       ),
                       SizedBox(
                         width: size.width * 0.36,
@@ -145,12 +159,23 @@ class AddProduct extends StatelessWidget {
 
                                   // side: BorderSide(color: Colors.red)
                                 ))),
-                            onPressed: () {
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (ctx) => const ProducrScreen()));
-                              addToPlantModel(context);
+                            onPressed: () async {
+                              if (data == null) {
+                                Navigator.of(context).pop();
+                                await addToPlantModel(context);
+                              } else {
+                                Navigator.of(context).pop();
+                                await updateProduct(
+                                    data!,
+                                    titleController.text.trim(),
+                                    descriptionController.text.trim(),
+                                    priceController.text.trim(),
+                                    quantityController.text.trim());
+                              }
                             },
-                            child: const Text('Add Product')),
+                            child: data != null
+                                ? const Text('Update')
+                                : const Text('Add Product')),
                       )
                     ],
                   ),

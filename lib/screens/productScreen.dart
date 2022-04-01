@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProducrScreen extends StatelessWidget {
-  const ProducrScreen({Key? key}) : super(key: key);
+  ProducrScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +53,17 @@ class ProducrScreen extends StatelessWidget {
                 child: StreamBuilder<List<PlantModel>>(
                     stream: readPlants(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                      print(snapshot);
+                      if (snapshot.data!.isNotEmpty || snapshot.data == null) {
                         final plant = snapshot.data;
                         return ListView.separated(
                             itemBuilder: ((context, index) => ListTile(
                                   onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (ctx) => AddProduct()));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (ctx) => AddProduct(
+                                                  data: plant![index],
+                                                )));
                                   },
                                   leading: Image.network(
                                     plant![index].image!,
@@ -88,7 +91,7 @@ class ProducrScreen extends StatelessWidget {
                             itemCount: plant!.length);
                       } else {
                         return const Center(
-                          child: Text('No data Fount'),
+                          child: Text('No Products Fount', style: TextStyle(fontSize: 20,color: Colors.red,fontWeight: FontWeight.bold),),
                         );
                       }
                     }))
