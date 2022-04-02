@@ -106,10 +106,10 @@ class AddProduct extends StatelessWidget {
                               const SnackBar(
                                   content: Text('No file selected')));
                         }
-
-                        // storage.uploadFile(path!, fileName).then((value) => print('done'));
                       },
-                      child: const Text('Add Image')),
+                      child: (data == null)
+                          ? const Text('Add Image')
+                          : const Text('Edit Image')),
                 )
               ],
             ),
@@ -159,18 +159,11 @@ class AddProduct extends StatelessWidget {
 
                                   // side: BorderSide(color: Colors.red)
                                 ))),
-                            onPressed: () async {
+                            onPressed: () {
                               if (data == null) {
-                                Navigator.of(context).pop();
-                                await addToPlantModel(context);
+                                addToPlantModel(context);
                               } else {
-                                Navigator.of(context).pop();
-                                await updateProduct(
-                                    data!,
-                                    titleController.text.trim(),
-                                    descriptionController.text.trim(),
-                                    priceController.text.trim(),
-                                    quantityController.text.trim());
+                                updatePlantModle(context);
                               }
                             },
                             child: data != null
@@ -193,7 +186,6 @@ class AddProduct extends StatelessWidget {
     final description = descriptionController.text.trim();
     final price = priceController.text.trim();
     final quantity = quantityController.text.trim();
-    // final imageName = image!.files.single.name;
 
     final plant = PlantModel(
       title: title,
@@ -202,9 +194,23 @@ class AddProduct extends StatelessWidget {
       quantity: int.parse(quantity),
     );
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Product Adding Please wait')));
-    await addProduct(plant, image!);
-    Navigator.pop(context);
+        const SnackBar(content: Text('Adding Product Please wait')));
+    await addProduct(plant, image!).whenComplete(() => Navigator.pop(context));
+  }
+
+  updatePlantModle(BuildContext context) async {
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
+    final price = priceController.text.trim();
+    final quantity = quantityController.text.trim();
+    data!.title = title;
+    data!.description = description;
+    data!.price = double.parse(price);
+    data!.quantity = int.parse(quantity);
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Updating Product Please wait')));
+    await updateProduct(data!, image)
+        .whenComplete(() => Navigator.pop(context));
   }
 
   // pickImage() async {

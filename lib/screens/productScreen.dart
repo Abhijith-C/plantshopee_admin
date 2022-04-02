@@ -53,9 +53,18 @@ class ProducrScreen extends StatelessWidget {
                 child: StreamBuilder<List<PlantModel>>(
                     stream: readPlants(),
                     builder: (context, snapshot) {
-                      print(snapshot);
-                      if (snapshot.data!.isNotEmpty || snapshot.data == null) {
-                        final plant = snapshot.data;
+                      final plant = snapshot.data;
+                      if (snapshot.data == null) {
+                        return const Center(
+                          child: Text(
+                            'No Products Fount',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      } else {
                         return ListView.separated(
                             itemBuilder: ((context, index) => ListTile(
                                   onTap: () {
@@ -89,10 +98,6 @@ class ProducrScreen extends StatelessWidget {
                                 )),
                             separatorBuilder: (ctx, index) => const Divider(),
                             itemCount: plant!.length);
-                      } else {
-                        return const Center(
-                          child: Text('No Products Fount', style: TextStyle(fontSize: 20,color: Colors.red,fontWeight: FontWeight.bold),),
-                        );
                       }
                     }))
           ],
