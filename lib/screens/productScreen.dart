@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProducrScreen extends StatelessWidget {
-  ProducrScreen({Key? key}) : super(key: key);
+  const ProducrScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +55,8 @@ class ProducrScreen extends StatelessWidget {
                     builder: (context, snapshot) {
                       final plant = snapshot.data;
                       if (snapshot.data == null) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (plant!.isEmpty) {
                         return const Center(
                           child: Text(
                             'No Products Fount',
@@ -71,14 +73,14 @@ class ProducrScreen extends StatelessWidget {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                             builder: (ctx) => AddProduct(
-                                                  data: plant![index],
+                                                  data: plant[index],
                                                 )));
                                   },
                                   leading: Image.network(
-                                    plant![index].image!,
+                                    plant[index].image!,
                                     width: 80,
                                     height: 80,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                   ),
                                   title: Text(
                                     plant[index].title,
@@ -97,7 +99,7 @@ class ProducrScreen extends StatelessWidget {
                                   //     )),
                                 )),
                             separatorBuilder: (ctx, index) => const Divider(),
-                            itemCount: plant!.length);
+                            itemCount: plant.length);
                       }
                     }))
           ],

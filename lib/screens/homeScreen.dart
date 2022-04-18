@@ -1,12 +1,15 @@
+import 'package:admin_plantshopee/controller/order_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/drawer/drawer.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(OrderController());
     return Scaffold(
       backgroundColor: appBarColor,
       appBar: AppBar(
@@ -17,9 +20,9 @@ class HomeScreen extends StatelessWidget {
           style: subHeading,
         ),
         centerTitle: true,
-        actions: [IconButton(onPressed: () {
-          
-        }, icon: const Icon(Icons.notifications))],
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
+        ],
       ),
       drawer: const CustomDrawer(),
       body: SafeArea(

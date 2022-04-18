@@ -1,16 +1,19 @@
 import 'package:admin_plantshopee/constance/constance.dart';
-import 'package:admin_plantshopee/screens/orderDetails/viewOrderDetails.dart';
-
+import 'package:admin_plantshopee/controller/order_controller.dart';
+import 'package:admin_plantshopee/firebase/database.dart';
+import 'package:admin_plantshopee/model/order_model.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 class MyOrder extends StatelessWidget {
-  const MyOrder({Key? key}) : super(key: key);
+  MyOrder({Key? key}) : super(key: key);
+  final OrderController _orderController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    _orderController.getOrders();
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -25,12 +28,16 @@ class MyOrder extends StatelessWidget {
           bottom: const TabBar(
             indicatorColor: Colors.black,
             labelColor: Colors.black,
+            isScrollable: true,
             tabs: [
               Tab(
-                text: 'Delivered',
+                text: 'Processing',
               ),
               Tab(
-                text: 'Processing',
+                text: 'Shipped',
+              ),
+              Tab(
+                text: 'Delivered',
               ),
               Tab(
                 text: 'Canceled',
@@ -40,24 +47,82 @@ class MyOrder extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            ListView.builder(
-                itemBuilder: ((context, index) => OrderInfo(
-                      status: 'Delivered',
-                      color: Colors.black,
-                    )),
-                itemCount: 10),
-            ListView.builder(
-                itemBuilder: ((context, index) => OrderInfo(
-                      status: 'Processing',
-                      color: Colors.blue,
-                    )),
-                itemCount: 10),
-            ListView.builder(
-                itemBuilder: ((context, index) => OrderInfo(
-                      status: 'Canceled',
-                      color: Colors.red,
-                    )),
-                itemCount: 10),
+            GetBuilder<OrderController>(
+              builder: (controller) {
+                if (controller.processingOrder.isEmpty) {
+                  return const Center(
+                    child: Text('No Order Found'),
+                  );
+                } else {
+                  return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final order = controller.processingOrder[index];
+                        return OrderInfo(
+                          order: order,
+                          color: Colors.blue,
+                        );
+                      },
+                      itemCount: controller.processingOrder.length);
+                }
+              },
+            ),
+            GetBuilder<OrderController>(
+              builder: (controller) {
+                if (controller.shippedOrder.isEmpty) {
+                  return const Center(
+                    child: Text('No Order Found'),
+                  );
+                } else {
+                  return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final order = controller.shippedOrder[index];
+                        return OrderInfo(
+                          order: order,
+                          color: Color.fromARGB(255, 223, 202, 14),
+                        );
+                      },
+                      itemCount: controller.shippedOrder.length);
+                }
+              },
+            ),
+            GetBuilder<OrderController>(
+              builder: (controller) {
+                if (controller.deliveredOrder.isEmpty) {
+                  return const Center(
+                    child: Text('No Order Found'),
+                  );
+                } else {
+                  return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final order = controller.deliveredOrder[index];
+                        return OrderInfo(
+                          order: order,
+                          color: Colors.green,
+                        );
+                      },
+                      itemCount: controller.deliveredOrder.length);
+                }
+              },
+            ),
+            GetBuilder<OrderController>(
+              builder: (controller) {
+                if (controller.cancelOrder.isEmpty) {
+                  return const Center(
+                    child: Text('No Order Found'),
+                  );
+                } else {
+                  return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final order = controller.cancelOrder[index];
+                        return OrderInfo(
+                          order: order,
+                          color: Colors.red,
+                        );
+                      },
+                      itemCount: controller.cancelOrder.length);
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -66,69 +131,73 @@ class MyOrder extends StatelessWidget {
 }
 
 class OrderInfo extends StatelessWidget {
-  String status;
+  OrderModel order;
   Color color;
-  OrderInfo({
-    Key? key,
-    required this.status,
-    required this.color,
-  }) : super(key: key);
+  OrderInfo({Key? key, required this.order, required this.color})
+      : super(key: key);
+  final OrderController _orderController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal:8.0),
       child: Card(
         color: bgCard,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text('Order No : 1234567890'),
-                  Text(
-                    '20/03/2020',
-                    style: TextStyle(color: Colors.grey),
-                  )
-                ],
+              SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    'Order No : ${order.orderId}',
+                    overflow: TextOverflow.ellipsis,
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Ordered Date : ${order.createdDate}',
+                style: const TextStyle(
+                    color: Colors.grey, overflow: TextOverflow.ellipsis),
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 5),
                 child: Divider(),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text('Quantity : 03'),
-                  Text('Total Amount : ₹ 799')
+                children: [
+                  Text('Quantity : ${order.cartModel.quantity}'),
+                  Text(
+                      'Total Amount : ₹ ${(order.cartModel.quantity) * (order.cartModel.price)}')
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: 100,
-                    height: 40,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color(0xFF242424))),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (ctx) => ViewOrderDetails(
-                                    status: status,
-                                    color: color,
-                                  )));
-                        },
-                        child: const Text('Detail')),
-                  ),
+                  (order.status != 'cancel')
+                      ? DropdownButton<String>(
+                          hint: Text(order.status),
+                          items: <String>['shipped', 'delivered']
+                              .map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            _orderController.changeStatus(order, value!);
+                            print(value);
+                          },
+                        )
+                      : SizedBox(),
                   Text(
-                    status,
+                    order.status,
                     style: TextStyle(color: color),
                   )
                 ],
