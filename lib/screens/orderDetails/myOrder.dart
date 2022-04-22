@@ -140,7 +140,7 @@ class OrderInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal:8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
         color: bgCard,
         child: Padding(
@@ -183,7 +183,7 @@ class OrderInfo extends StatelessWidget {
                   (order.status != 'cancel')
                       ? DropdownButton<String>(
                           hint: Text(order.status),
-                          items: <String>['shipped', 'delivered']
+                          items: <String>['processing', 'shipped', 'delivered']
                               .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -192,7 +192,6 @@ class OrderInfo extends StatelessWidget {
                           }).toList(),
                           onChanged: (value) {
                             _orderController.changeStatus(order, value!);
-                            print(value);
                           },
                         )
                       : SizedBox(),

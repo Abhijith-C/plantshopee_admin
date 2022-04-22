@@ -1,4 +1,5 @@
 import 'package:admin_plantshopee/controller/order_controller.dart';
+import 'package:admin_plantshopee/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/drawer/drawer.dart';
@@ -10,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(OrderController());
+    Get.put(UserController());
     return Scaffold(
       backgroundColor: appBarColor,
       appBar: AppBar(

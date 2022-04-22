@@ -58,7 +58,7 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Sales Report'),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => const SalesReportScreen()));
+                  builder: (ctx) =>  SalesReportScreen()));
             },
           ),
           ListTile(
@@ -76,7 +76,7 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => const ManageUsersScreen()));
+                  builder: (ctx) =>  ManageUsersScreen()));
             },
           ),
           ListTile(

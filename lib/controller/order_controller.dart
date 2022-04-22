@@ -10,6 +10,18 @@ class OrderController extends GetxController {
   List<OrderModel> cancelOrder = [];
   List<OrderModel> deliveredOrder = [];
   List<OrderModel> shippedOrder = [];
+  List<OrderModel> allOrder = [];
+
+  void getAllOrder() async {
+    allOrder.clear();
+    final orderCollection = await _db.collection('orders').get();
+    List<OrderModel> listOrder =
+        orderCollection.docs.map((e) => OrderModel.fromJson(e.data())).toList();
+    for (var item in listOrder) {
+      allOrder.add(item);
+    }
+    update();
+  }
 
   getOrders() async {
     processingOrder.clear();
