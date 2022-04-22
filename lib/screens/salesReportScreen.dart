@@ -70,9 +70,8 @@ class SalesReportScreen extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                      onPressed: () async {
-                        date = await pickDateRange(context);
-                        print(date);
+                      onPressed: ()  {
+                       pickDateRange(context);
                       },
                       icon: const Icon(Icons.calendar_month)),
                 ],
@@ -80,7 +79,12 @@ class SalesReportScreen extends StatelessWidget {
               Expanded(
                 child: GetBuilder<OrderController>(
                   builder: (controller) {
-                    return DataTable2(
+                    if (controller.allOrder.isEmpty) {
+                      return const Center(
+                        child: Text('No Orders Found'),
+                      );
+                    } else {
+                      return DataTable2(
                         columnSpacing: 12,
                         horizontalMargin: 12,
                         minWidth: 600,
@@ -132,6 +136,7 @@ class SalesReportScreen extends StatelessWidget {
                             )),
                           ]);
                         }));
+                    }
                   },
                 ),
               ),
