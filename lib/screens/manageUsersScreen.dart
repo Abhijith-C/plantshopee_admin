@@ -35,7 +35,7 @@ class ManageUsersScreen extends StatelessWidget {
                     return ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => const UserProfileScreen()));
+                            builder: (ctx) => UserProfileScreen(user : user)));
                       },
                       leading: CircleAvatar(
                           radius: 30,

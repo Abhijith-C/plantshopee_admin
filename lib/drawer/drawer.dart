@@ -2,7 +2,7 @@ import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/screens/homeScreen.dart';
 import 'package:admin_plantshopee/screens/manageUsersScreen.dart';
 import 'package:admin_plantshopee/screens/orderDetails/myOrder.dart';
-import 'package:admin_plantshopee/screens/orderScreen/orderScreen.dart';
+
 import 'package:admin_plantshopee/screens/productScreen.dart';
 import 'package:admin_plantshopee/screens/salesReportScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -98,11 +98,11 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Shipment Details'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => OrderScreen(
-                        title: 'Shipped',
-                        appBarTitle: 'Shipment Details',
-                      )));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (ctx) => OrderScreen(
+              //           title: 'Shipped',
+              //           appBarTitle: 'Shipment Details',
+              //         )));
             },
           ),
           ListTile(

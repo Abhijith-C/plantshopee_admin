@@ -1,13 +1,15 @@
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/controller/order_controller.dart';
 import 'package:data_table_2/data_table_2.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SalesReportScreen extends StatelessWidget {
   SalesReportScreen({Key? key}) : super(key: key);
   final OrderController _controller = Get.find();
+  DateTime last24Hours = DateTime.now().subtract(const Duration(days: 1));
+  DateTime lastWeek = DateTime.now().subtract(const Duration(days: 7));
+  DateTime lastMonth = DateTime.now().subtract(const Duration(days: 30));
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +41,30 @@ class SalesReportScreen extends StatelessWidget {
                               'All',
                               style: subHeading,
                             ),
-                            items: const [
-                              DropdownMenuItem(
+                            items: [
+                              const DropdownMenuItem(
                                 child: Text("All"),
                                 value: 1,
                               ),
                               DropdownMenuItem(
-                                child: Text("Today"),
-                                value: 2,
+                                child: const Text("Today"),
+                                value: last24Hours,
                               ),
                               DropdownMenuItem(
-                                child: Text("This Week"),
-                                value: 3,
+                                child: const Text("This Week"),
+                                value: lastWeek,
                               ),
                               DropdownMenuItem(
-                                child: Text("This Month"),
-                                value: 4,
+                                child: const Text("This Month"),
+                                value: lastMonth,
                               )
                             ],
-                            onChanged: (v) {
-                              print(v);
+                            onChanged: (date) {
+                              if (date == 1) {
+                                _controller.getAllOrder();
+                              } else {
+                                _controller.sortOrderCustom(date as DateTime);
+                              }
                             }),
                       ),
                     ),
@@ -137,6 +143,7 @@ class SalesReportScreen extends StatelessWidget {
   Future<DateTimeRange?> pickDateRange(BuildContext context) async {
     DateTimeRange? date = await showDateRangePicker(
         context: context, firstDate: DateTime(2022), lastDate: DateTime(2050));
+    _controller.sortOrder(date!.start, date.end);
     return date;
   }
 }

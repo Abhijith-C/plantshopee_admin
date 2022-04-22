@@ -1,10 +1,16 @@
+import 'package:flutter/material.dart';
+
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/customWidgets/customRow.dart';
 import 'package:admin_plantshopee/customWidgets/userAddress.dart';
-import 'package:flutter/material.dart';
+import 'package:admin_plantshopee/model/user_model.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
+  UserModel user;
+  UserProfileScreen({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +26,38 @@ class UserProfileScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 4,right: 4,top: 20,bottom: 10),
+        padding: const EdgeInsets.only(left: 4, right: 4, top: 20, bottom: 10),
         child: Column(
           children: [
             Align(
               alignment: Alignment.topCenter,
               child: CircleAvatar(
-                radius: size.width * 0.26,
-                backgroundImage: const NetworkImage(
-                    'https://i.insider.com/5dcc135ce94e86714253af21?width=1000&format=jpeg&auto=webp'),
-              ),
+                  radius: size.width * 0.26,
+                  backgroundImage: (user.image != null)
+                      ? NetworkImage(user.image!)
+                      : const AssetImage('assets/images/profile.png')
+                          as ImageProvider),
             ),
             kHeight18,
             Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 15),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 child: Column(
                   children: [
-                   CustomRow(title: 'Name', content: 'John'),
-                   const Divider(),
-                    CustomRow(title: 'ID', content: '1234567890'),
+                    CustomRow(title: 'Name', content: user.username),
                     const Divider(),
-                    CustomRow(title: 'Mobile Number', content: '0987654321'),
-                     const Divider(),
-                    CustomRow(title: 'Email ID', content: 'john@gmail.com')
+                    CustomRow(title: 'ID', content: user.userId!),
+                    const Divider(),
+                    CustomRow(title: 'Mobile Number', content: user.mobileNumber),
+                    const Divider(),
+                    CustomRow(title: 'Email ID', content: user.email)
                   ],
                 ),
               ),
             ),
-            kHeight12,
-            UserAddress(),
+            // kHeight12,
+            // UserAddress(),
             kHeight18,
             Expanded(
               child: Align(
@@ -61,13 +69,13 @@ class UserProfileScreen extends StatelessWidget {
                       width: size.width * 0.36,
                       child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Color.fromARGB(255, 23, 147, 168)),
+                              backgroundColor: MaterialStateProperty.all(
+                                 const Color.fromARGB(255, 23, 147, 168)),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
-      
+
                                 // side: BorderSide(color: Colors.red)
                               ))),
                           onPressed: () {
@@ -86,7 +94,7 @@ class UserProfileScreen extends StatelessWidget {
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
-      
+
                                 // side: BorderSide(color: Colors.red)
                               ))),
                           onPressed: () {
@@ -94,7 +102,6 @@ class UserProfileScreen extends StatelessWidget {
                           },
                           child: const Text('Block')),
                     ),
-                    
                   ],
                 ),
               ),
@@ -105,5 +112,3 @@ class UserProfileScreen extends StatelessWidget {
     );
   }
 }
-
-

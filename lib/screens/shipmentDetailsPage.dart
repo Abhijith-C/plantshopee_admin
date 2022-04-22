@@ -1,5 +1,5 @@
 import 'package:admin_plantshopee/constance/constance.dart';
-import 'package:admin_plantshopee/screens/orderScreen/orderDetails.dart';
+
 import 'package:flutter/material.dart';
 
 class ShipmentDetailsScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class ShipmentDetailsScreen extends StatelessWidget {
         title: Text('Shipment Details'),
       ),
       
-      body: OrderDetails(),
+      // body: OrderDetails(),
     );
   }
 }

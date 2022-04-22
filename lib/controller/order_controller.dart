@@ -56,6 +56,35 @@ class OrderController extends GetxController {
     getOrders();
   }
 
+  sortOrderCustom(DateTime days) async {
+    allOrder.clear();
+    final orderCollection = await _db
+        .collection('orders')
+        .orderBy('createdDate', descending: false)
+        .startAt([days.millisecondsSinceEpoch]).get();
+    List<OrderModel> listOrder =
+        orderCollection.docs.map((e) => OrderModel.fromJson(e.data())).toList();
+    for (var item in listOrder) {
+      allOrder.add(item);
+    }
+    update();
+  }
+
+  sortOrder(DateTime start, DateTime end) async {
+    allOrder.clear();
+    final orderCollection = await _db
+        .collection('orders')
+        .orderBy('createdDate', descending: false)
+        .startAt([start.millisecondsSinceEpoch]).endAt(
+            [end.millisecondsSinceEpoch]).get();
+    List<OrderModel> listOrder =
+        orderCollection.docs.map((e) => OrderModel.fromJson(e.data())).toList();
+    for (var item in listOrder) {
+      allOrder.add(item);
+    }
+    update();
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
