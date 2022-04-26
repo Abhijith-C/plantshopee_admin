@@ -13,7 +13,6 @@ class SalesReportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTimeRange? date;
     _controller.getAllOrder();
     return Scaffold(
         backgroundColor: Colors.white,

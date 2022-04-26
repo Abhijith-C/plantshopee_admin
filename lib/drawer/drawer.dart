@@ -1,4 +1,5 @@
 import 'package:admin_plantshopee/constance/constance.dart';
+import 'package:admin_plantshopee/screens/help_screen.dart';
 import 'package:admin_plantshopee/screens/homeScreen.dart';
 import 'package:admin_plantshopee/screens/manageUsersScreen.dart';
 import 'package:admin_plantshopee/screens/orderDetails/myOrder.dart';
@@ -112,6 +113,15 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pop(context);
               // Navigator.of(context)
               //     .push(MaterialPageRoute(builder: (ctx) => const MyOrder()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.notification_add),
+            title: const Text('Help Center'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => HelpScreen()));
             },
           ),
           const Divider(

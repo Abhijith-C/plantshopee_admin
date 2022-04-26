@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:admin_plantshopee/controller/order_controller.dart';
 import 'package:admin_plantshopee/model/order_model.dart';
 import 'package:admin_plantshopee/model/plantModel.dart';
+import 'package:admin_plantshopee/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 Future<void> addProduct(PlantModel plant, FilePickerResult image) async {
@@ -49,4 +51,13 @@ Future<void> updateProduct(PlantModel plant, FilePickerResult? image) async {
   await productDB.update(plant.toJson());
 }
 
-
+Future<List<String>> getOrderId(String id) async {
+  final orderIdCollection = await FirebaseFirestore.instance
+      .collection('chats')
+      .doc(id)
+      .collection('messages')
+      .get();
+  final order =
+      orderIdCollection.docs.map((e) => e.data()['orderId'] as String).toList();
+  return order;
+}
