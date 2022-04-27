@@ -12,6 +12,7 @@ class HelpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     _controller.getUserId();
     return Scaffold(
       backgroundColor: scaffoldColor,

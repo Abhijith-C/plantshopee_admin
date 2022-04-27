@@ -1,9 +1,12 @@
+import 'package:admin_plantshopee/controller/notifications.dart';
+import 'package:admin_plantshopee/firebase/database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_plantshopee/customWidgets/chat_container.dart';
 import 'package:admin_plantshopee/firebase/chat_api.dart';
 import 'package:admin_plantshopee/model/chat_model.dart';
 import 'package:admin_plantshopee/model/user_model.dart';
+import 'package:get/get.dart';
 
 class ChatScreen extends StatelessWidget {
   String userId;
@@ -15,6 +18,7 @@ class ChatScreen extends StatelessWidget {
   }) : super(key: key);
 
   final _messageController = TextEditingController();
+  final _notificationController = Get.put(NotificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: StreamBuilder<List<ChatModel>>(
-                      stream: ChatApi.getChart(userId,id),
+                      stream: ChatApi.getChart(userId, id),
                       builder: ((context, snapshot) {
                         if (snapshot.data == null) {
                           return const Center(
@@ -109,9 +113,16 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
-  void sendMessage(BuildContext context) async {
+
+  void sendMessage(BuildContext context) {
+    String message = _messageController.text.trim();
+    // String token = await getToken(userId);
     FocusScope.of(context).unfocus();
-    ChatApi.sendMessage(userId,id, _messageController.text.trim());
+    ChatApi.sendMessage(userId, id, _messageController.text.trim())
+        .then((value) {
+      _notificationController.sendPushMessage(
+          _notificationController.mtoken!, message, 'New Message');
+    });
     _messageController.clear();
   }
 }

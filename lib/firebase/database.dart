@@ -61,3 +61,9 @@ Future<List<String>> getOrderId(String id) async {
       orderIdCollection.docs.map((e) => e.data()['orderId'] as String).toList();
   return order;
 }
+
+Future<String>getToken(String id) async {
+  final token =
+      await FirebaseFirestore.instance.collection('users').doc(id).get();
+  return token.data()!['tocken'];
+}
