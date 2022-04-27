@@ -1,4 +1,5 @@
 import 'package:admin_plantshopee/controller/help_controller.dart';
+import 'package:admin_plantshopee/controller/notifications.dart';
 import 'package:admin_plantshopee/controller/order_controller.dart';
 import 'package:admin_plantshopee/controller/user_controller.dart';
 import 'package:admin_plantshopee/firebase/database.dart';
@@ -8,8 +9,8 @@ import 'package:admin_plantshopee/drawer/drawer.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
+   HomeScreen({Key? key}) : super(key: key);
+ final _notificationController = Get.put(NotificationController());
   @override
   Widget build(BuildContext context) {
     Get.put(OrderController());

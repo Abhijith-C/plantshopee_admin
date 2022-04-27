@@ -62,8 +62,8 @@ Future<List<String>> getOrderId(String id) async {
   return order;
 }
 
-Future<String>getToken(String id) async {
+Future<String>getTokenId(String id) async {
   final token =
       await FirebaseFirestore.instance.collection('users').doc(id).get();
-  return token.data()!['tocken'];
+  return token.data()!['token'];
 }

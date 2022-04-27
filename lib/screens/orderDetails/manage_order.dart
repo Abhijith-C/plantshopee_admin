@@ -1,6 +1,5 @@
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/controller/order_controller.dart';
-import 'package:admin_plantshopee/firebase/database.dart';
 import 'package:admin_plantshopee/model/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

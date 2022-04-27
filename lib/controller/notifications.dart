@@ -1,3 +1,4 @@
+import 'package:admin_plantshopee/firebase/database.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 
@@ -13,13 +14,15 @@ class NotificationController extends GetxController {
 
   String? mtoken = " ";
 
-  void getTokenFromFirestore() async {}
-
-  void saveToken(String token) async {
-    await FirebaseFirestore.instance.collection("UserTokens").doc("User1").set({
-      'token': token,
-    });
+  void updateToken(String id) async {
+    mtoken = await getTokenId(id);
   }
+
+  // void saveToken(String token) async {
+  //   await FirebaseFirestore.instance.collection("admin").doc("admin1").set({
+  //     'token': token,
+  //   });
+  // }
 
   void sendPushMessage(String token, String body, String title) async {
     try {
@@ -48,14 +51,14 @@ class NotificationController extends GetxController {
     }
   }
 
-  void getToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
-      mtoken = token;
+  // void getToken() async {
+  //   await FirebaseMessaging.instance.getToken().then((token) {
+  //     mtoken = token;
 
-      saveToken(token!);
-      update();
-    });
-  }
+  //     saveToken(token!);
+  //     update();
+  //   });
+  // }
 
   void requestPermission() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -143,7 +146,7 @@ class NotificationController extends GetxController {
     loadFCM();
 
     listenFCM();
-    getToken();
+    // getToken();
 
     FirebaseMessaging.instance.subscribeToTopic("Animal");
   }

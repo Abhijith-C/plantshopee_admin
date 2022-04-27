@@ -1,3 +1,5 @@
+import 'package:admin_plantshopee/controller/notifications.dart';
+import 'package:admin_plantshopee/firebase/database.dart';
 import 'package:admin_plantshopee/model/order_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +8,7 @@ import 'package:get/get.dart';
 class OrderController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final NotificationController _notification = Get.find();
   List<OrderModel> processingOrder = [];
   List<OrderModel> cancelOrder = [];
   List<OrderModel> deliveredOrder = [];
@@ -48,11 +51,14 @@ class OrderController extends GetxController {
     update();
   }
 
-  void changeStatus(OrderModel model, String currentStatus) {
+  void changeStatus(OrderModel model, String currentStatus) async{
+    String token = await getTokenId(model.userId!);
     final orderCollection =
         FirebaseFirestore.instance.collection('orders').doc(model.orderId);
     model.status = currentStatus;
-    orderCollection.set(model.toJson());
+    orderCollection.set(model.toJson()).then((value) {
+      _notification.sendPushMessage(token, 'Your product was $currentStatus', currentStatus);
+    });
     getOrders();
   }
 

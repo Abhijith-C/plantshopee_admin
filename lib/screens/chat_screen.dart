@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:admin_plantshopee/customWidgets/chat_container.dart';
 import 'package:admin_plantshopee/firebase/chat_api.dart';
 import 'package:admin_plantshopee/model/chat_model.dart';
-import 'package:admin_plantshopee/model/user_model.dart';
 import 'package:get/get.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -18,10 +17,11 @@ class ChatScreen extends StatelessWidget {
   }) : super(key: key);
 
   final _messageController = TextEditingController();
-  final _notificationController = Get.put(NotificationController());
+  final NotificationController _notificationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    _notificationController.updateToken(userId);
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.blue,
@@ -116,9 +116,8 @@ class ChatScreen extends StatelessWidget {
 
   void sendMessage(BuildContext context) {
     String message = _messageController.text.trim();
-    // String token = await getToken(userId);
     FocusScope.of(context).unfocus();
-    ChatApi.sendMessage(userId, id, _messageController.text.trim())
+    ChatApi.sendMessage(userId, id, message)
         .then((value) {
       _notificationController.sendPushMessage(
           _notificationController.mtoken!, message, 'New Message');
