@@ -1,3 +1,4 @@
+import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class ComplaintScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Complaints')),
+      appBar: AppBar(title: Text('Order Id'),centerTitle: true, backgroundColor: appBarColor),
       body: FutureBuilder<List<String>>(
           future: getOrderId(id),
           builder: (contex, snap) {

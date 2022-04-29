@@ -1,6 +1,8 @@
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/screens/homeScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -88,10 +90,6 @@ class LoginPage extends StatelessWidget {
                       height: 45,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Navigator.of(context).pushAndRemoveUntil(
-                          //     MaterialPageRoute(
-                          //         builder: (ctx) => const HomeScreen()),
-                          //     (route) => false);
                           logIn();
                         },
                         child: const Text(
@@ -118,24 +116,18 @@ class LoginPage extends StatelessWidget {
   }
 
   logIn() async {
-//     try {
-//   UserCredential admin = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-//     email: "barry.allen@example.com",
-//     password: "SuperSecretPassword!"
-//   );
-// } on FirebaseAuthException catch (e) {
-//   if (e.code == 'weak-password') {
-//     print('The password provided is too weak.');
-//   } else if (e.code == 'email-already-in-use') {
-//     print('The account already exists for that email.');
-//   }
-// } catch (e) {
-//   print(e);
-// }
+    String? token = await FirebaseMessaging.instance.getToken();
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
+       FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim())
+          .then((value) {
+        FirebaseFirestore.instance
+            .collection('admin')
+            .doc('admin')
+            .update({'token': token});
+      });
     } on FirebaseAuthException catch (e) {
       print(e);
     }

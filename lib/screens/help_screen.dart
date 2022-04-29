@@ -1,6 +1,5 @@
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/controller/help_controller.dart';
-import 'package:admin_plantshopee/screens/chat_screen.dart';
 import 'package:admin_plantshopee/screens/complaints.dart';
 
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ class HelpScreen extends StatelessWidget {
         backgroundColor: appBarColor,
         centerTitle: true,
         title: const Text(
-          'Manage Users',
+          'Complaints',
           style: subHeading,
         ),
       ),
@@ -30,7 +29,7 @@ class HelpScreen extends StatelessWidget {
             // print(controller.user.length);
             if (controller.user.isEmpty) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: Text('No Complaints Found'),
               );
             } else {
               return ListView.separated(

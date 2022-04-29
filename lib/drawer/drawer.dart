@@ -94,29 +94,29 @@ class CustomDrawer extends StatelessWidget {
                       ));
             },
           ),
+          // ListTile(
+          //   leading: const Icon(Icons.local_shipping),
+          //   title: const Text('Shipment Details'),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //     // Navigator.of(context).push(MaterialPageRoute(
+          //     //     builder: (ctx) => OrderScreen(
+          //     //           title: 'Shipped',
+          //     //           appBarTitle: 'Shipment Details',
+          //     //         )));
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.notification_add),
+          //   title: const Text('Send Notificatons'),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //     // Navigator.of(context)
+          //     //     .push(MaterialPageRoute(builder: (ctx) => const MyOrder()));
+          //   },
+          // ),
           ListTile(
-            leading: const Icon(Icons.local_shipping),
-            title: const Text('Shipment Details'),
-            onTap: () {
-              Navigator.pop(context);
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (ctx) => OrderScreen(
-              //           title: 'Shipped',
-              //           appBarTitle: 'Shipment Details',
-              //         )));
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.notification_add),
-            title: const Text('Send Notificatons'),
-            onTap: () {
-              Navigator.pop(context);
-              // Navigator.of(context)
-              //     .push(MaterialPageRoute(builder: (ctx) => const MyOrder()));
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.notification_add),
+            leading: const Icon(Icons.help_center),
             title: const Text('Help Center'),
             onTap: () {
               Navigator.pop(context);

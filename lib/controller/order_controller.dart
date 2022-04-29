@@ -14,6 +14,8 @@ class OrderController extends GetxController {
   List<OrderModel> deliveredOrder = [];
   List<OrderModel> shippedOrder = [];
   List<OrderModel> allOrder = [];
+  int totalProduct = 0;
+  double totalProfit = 0;
 
   void getAllOrder() async {
     allOrder.clear();
@@ -49,15 +51,17 @@ class OrderController extends GetxController {
       }
     }
     update();
+    getTotalProfit();
   }
 
-  void changeStatus(OrderModel model, String currentStatus) async{
+  void changeStatus(OrderModel model, String currentStatus) async {
     String token = await getTokenId(model.userId!);
     final orderCollection =
         FirebaseFirestore.instance.collection('orders').doc(model.orderId);
     model.status = currentStatus;
     orderCollection.set(model.toJson()).then((value) {
-      _notification.sendPushMessage(token, 'Your product was $currentStatus', currentStatus);
+      _notification.sendPushMessage(
+          token, 'Your product was $currentStatus', currentStatus);
     });
     getOrders();
   }
@@ -91,10 +95,27 @@ class OrderController extends GetxController {
     update();
   }
 
+  getTotalProduct() async {
+    final product =
+        await FirebaseFirestore.instance.collection('Products').get();
+    totalProduct = product.docs.length;
+
+    update();
+  }
+
+  getTotalProfit() {
+    double sum = 0;
+    for (var item in deliveredOrder) {
+      sum = sum + item.totalPrice;
+    }
+    totalProfit = sum;
+    update();
+  }
+
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getOrders();
+    getTotalProduct();
   }
 }

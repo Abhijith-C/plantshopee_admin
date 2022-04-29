@@ -1,3 +1,4 @@
+import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/controller/notifications.dart';
 import 'package:admin_plantshopee/firebase/database.dart';
 import 'package:flutter/material.dart';
@@ -24,101 +25,110 @@ class ChatScreen extends StatelessWidget {
     _notificationController.updateToken(userId);
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
-        elevation: 0,
-      ),
-      body: Container(
-        margin: const EdgeInsets.only(top: 50),
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        child: Stack(
-          children: [
-            Column(
+        backgroundColor: Colors.blue,
+        appBar: AppBar(
+          elevation: 0,
+        ),
+        body: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: Stack(
               children: [
-                Expanded(
-                  child: StreamBuilder<List<ChatModel>>(
+                Padding(
+                  padding: const EdgeInsets.only(left:8.0,top: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("User id : ${userId}"),
+                    SizedBox(height: 10,),
+                  Text('Order id : $id'),
+                  ],),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 80),
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 70),
+                            child: StreamBuilder<List<ChatModel>>(
                       stream: ChatApi.getChart(userId, id),
                       builder: ((context, snapshot) {
                         if (snapshot.data == null) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          if (snapshot.data!.isEmpty) {
                             return const Center(
-                              child: Text("Hay, How may Help you"),
+                              child: CircularProgressIndicator(),
                             );
-                          } else {
-                            return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: ((context, index) {
-                                  final chat = snapshot.data![index];
-
-                                  return ChatContainer(
-                                      message: chat.message, isMe: chat.itsMe);
-                                }));
-                          }
+                        } else {
+                            if (snapshot.data!.isEmpty) {
+                              return const Center(
+                                child: Text("Hay, How may Help you"),
+                              );
+                            } else {
+                              return ListView.builder(
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: ((context, index) {
+                                    final chat = snapshot.data![index];
+                                    return ChatContainer(
+                                        message: chat.message, isMe: chat.itsMe);
+                                  }));
+                            }
                         }
                       })),
+                          ),
                 ),
-                const SizedBox(
-                  height: 70,
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _messageController,
-                        textCapitalization: TextCapitalization.sentences,
-                        autocorrect: true,
-                        enableSuggestions: true,
-                        decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey.shade100,
-                            hintText: 'Type your message',
-                            border: OutlineInputBorder(
-                                borderSide: const BorderSide(width: 0),
-                                gapPadding: 10,
-                                borderRadius: BorderRadius.circular(25))),
+                
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _messageController,
+                              textCapitalization: TextCapitalization.sentences,
+                              autocorrect: true,
+                              enableSuggestions: true,
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.grey.shade100,
+                                  hintText: 'Type your message',
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(width: 0),
+                                      gapPadding: 10,
+                                      borderRadius: BorderRadius.circular(25))),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          InkWell(
+                              onTap: () {
+                                sendMessage(context);
+                              },
+                              child: const CircleAvatar(
+                                radius: 26,
+                                child: Icon(Icons.send),
+                              ))
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    InkWell(
-                        onTap: () {
-                          sendMessage(context);
-                        },
-                        child: const CircleAvatar(
-                          radius: 26,
-                          child: Icon(Icons.send),
-                        ))
-                  ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+                
+              ],
+            ))
+        
+        );
   }
 
   void sendMessage(BuildContext context) {
     String message = _messageController.text.trim();
     FocusScope.of(context).unfocus();
-    ChatApi.sendMessage(userId, id, message)
-        .then((value) {
+    ChatApi.sendMessage(userId, id, message).then((value) {
       _notificationController.sendPushMessage(
           _notificationController.mtoken!, message, 'New Message');
     });

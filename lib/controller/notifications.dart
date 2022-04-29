@@ -18,11 +18,6 @@ class NotificationController extends GetxController {
     mtoken = await getTokenId(id);
   }
 
-  // void saveToken(String token) async {
-  //   await FirebaseFirestore.instance.collection("admin").doc("admin1").set({
-  //     'token': token,
-  //   });
-  // }
 
   void sendPushMessage(String token, String body, String title) async {
     try {
