@@ -100,7 +100,7 @@ class AddProduct extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         image = await FilePicker.platform.pickFiles(
-                            allowMultiple: false, type: FileType.image);
+                            allowMultiple: false, type: FileType.any);
                         if (image == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
