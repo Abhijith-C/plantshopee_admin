@@ -2,7 +2,7 @@ import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/screens/help_screen.dart';
 import 'package:admin_plantshopee/screens/homeScreen.dart';
 import 'package:admin_plantshopee/screens/manageUsersScreen.dart';
-import 'package:admin_plantshopee/screens/orderDetails/manage_order.dart';
+import 'package:admin_plantshopee/screens/manage_order.dart';
 
 import 'package:admin_plantshopee/screens/productScreen.dart';
 import 'package:admin_plantshopee/screens/salesReportScreen.dart';
@@ -87,10 +87,6 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pop(context);
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (ctx) => MyOrder()
-                      //  OrderScreen(
-                      //       title: 'To Confirm',
-                      //       appBarTitle: 'All Orders',
-                      //     )
                       ));
             },
           ),
@@ -116,8 +112,8 @@ class CustomDrawer extends StatelessWidget {
           //   },
           // ),
           ListTile(
-            leading: const Icon(Icons.help_center),
-            title: const Text('Help Center'),
+            leading: const Icon(Icons.support_agent),
+            title: const Text('Help & Support'),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context)

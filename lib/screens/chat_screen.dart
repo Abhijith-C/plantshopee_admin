@@ -25,22 +25,25 @@ class ChatScreen extends StatelessWidget {
     _notificationController.updateToken(userId);
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
+          centerTitle: true,
+          title: const Text('Plantshopee Support',style: subHeading,),
         ),
-        body: Container(
+        body: SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: Stack(
               children: [
+                Container(width: double.infinity,height: 200,color: Colors.blue,),
                 Padding(
-                  padding: const EdgeInsets.only(left:8.0,top: 5),
+                  padding: const EdgeInsets.only(left:8.0,),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("User id : ${userId}"),
-                    SizedBox(height: 10,),
+                    Text("User id : $userId"),
+                   const SizedBox(height: 10,),
                   Text('Order id : $id'),
                   ],),
                 ),

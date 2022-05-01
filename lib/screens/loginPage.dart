@@ -126,7 +126,7 @@ class LoginPage extends StatelessWidget {
         FirebaseFirestore.instance
             .collection('admin')
             .doc('admin')
-            .update({'token': token});
+            .set({'token': token});
       });
     } on FirebaseAuthException catch (e) {
       print(e);

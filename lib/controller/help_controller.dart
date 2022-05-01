@@ -8,8 +8,10 @@ class HelpController extends GetxController {
   List<UserModel> user = [];
   List<String> userId = [];
   List<String> orderId = [];
-
+  bool isLoading = true;
+  
   getUserId() async {
+    isLoading = true;
     user.clear();
     orderId.clear();
     userId.clear();
@@ -22,9 +24,9 @@ class HelpController extends GetxController {
       user.add(await getUser(item));
       // orderId.add(await getOrderId(item));
     }
+    isLoading = false;
     update();
   }
-
 
   Future<UserModel> getUser(String id) async {
     UserModel userCollection = await FirebaseFirestore.instance

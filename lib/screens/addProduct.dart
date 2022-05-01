@@ -213,16 +213,4 @@ class AddProduct extends StatelessWidget {
         .whenComplete(() => Navigator.pop(context));
   }
 
-  // pickImage() async {
-  //   try {
-  //     final ImagePicker _picker = ImagePicker();
-  //     final image = await _picker.pickImage(source: ImageSource.gallery);
-  //     if (image == null) return;
-  //     final imageTemp = File(image.path);
-  //     this.image = imageTemp;
-  //   } on PlatformException catch (e) {
-  //     print(e);
-  //   }
-  //   print(this.image);
-  // }
 }

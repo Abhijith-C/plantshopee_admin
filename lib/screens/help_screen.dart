@@ -11,7 +11,6 @@ class HelpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     _controller.getUserId();
     return Scaffold(
       backgroundColor: scaffoldColor,
@@ -27,41 +26,48 @@ class HelpScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: GetBuilder<HelpController>(builder: (controller) {
             // print(controller.user.length);
-            if (controller.user.isEmpty) {
-              return const Center(
-                child: Text('No Complaints Found'),
-              );
+            if (controller.isLoading == false) {
+              if (controller.user.isEmpty) {
+                return const Center(
+                  child: Text('No Complaints Found'),
+                );
+              } else {
+                return ListView.separated(
+                    itemBuilder: ((context, index) {
+                      final user = controller.user[index];
+                      return ListTile(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) =>
+                                  ComplaintScreen(id: user.userId!)));
+                        },
+                        leading: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.white,
+                            backgroundImage: (user.image != null)
+                                ? NetworkImage(user.image!)
+                                : const AssetImage('assets/images/profile.png')
+                                    as ImageProvider),
+                        title: Text(user.username),
+                        subtitle: Text(
+                          user.userId!,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.block,
+                              color: btnRed,
+                            )),
+                      );
+                    }),
+                    separatorBuilder: (ctx, index) => const Divider(),
+                    itemCount: controller.user.length);
+              }
             } else {
-              return ListView.separated(
-                  itemBuilder: ((context, index) {
-                    final user = controller.user[index];
-                    return ListTile(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => ComplaintScreen(id: user.userId!)));
-                      },
-                      leading: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.white,
-                          backgroundImage: (user.image != null)
-                              ? NetworkImage(user.image!)
-                              : const AssetImage('assets/images/profile.png')
-                                  as ImageProvider),
-                      title: Text(user.username),
-                      subtitle: Text(
-                        user.userId!,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.block,
-                            color: btnRed,
-                          )),
-                    );
-                  }),
-                  separatorBuilder: (ctx, index) => const Divider(),
-                  itemCount: controller.user.length);
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
           })),
     );

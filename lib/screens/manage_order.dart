@@ -48,20 +48,26 @@ class MyOrder extends StatelessWidget {
           children: [
             GetBuilder<OrderController>(
               builder: (controller) {
-                if (controller.processingOrder.isEmpty) {
-                  return const Center(
-                    child: Text('No Order Found'),
-                  );
+                if (controller.isLoading == false) {
+                  if (controller.processingOrder.isEmpty) {
+                    return const Center(
+                      child: Text('No Order Found'),
+                    );
+                  } else {
+                    return ListView.builder(
+                        itemBuilder: (context, index) {
+                          final order = controller.processingOrder[index];
+                          return OrderInfo(
+                            order: order,
+                            color: Colors.blue,
+                          );
+                        },
+                        itemCount: controller.processingOrder.length);
+                  }
                 } else {
-                  return ListView.builder(
-                      itemBuilder: (context, index) {
-                        final order = controller.processingOrder[index];
-                        return OrderInfo(
-                          order: order,
-                          color: Colors.blue,
-                        );
-                      },
-                      itemCount: controller.processingOrder.length);
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
               },
             ),
@@ -77,7 +83,7 @@ class MyOrder extends StatelessWidget {
                         final order = controller.shippedOrder[index];
                         return OrderInfo(
                           order: order,
-                          color: Color.fromARGB(255, 223, 202, 14),
+                          color: const Color.fromARGB(255, 223, 202, 14),
                         );
                       },
                       itemCount: controller.shippedOrder.length);
@@ -176,11 +182,15 @@ class OrderInfo extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  (order.status != 'cancel')
-                      ? DropdownButton<String>(
+              Align(
+                alignment: Alignment.bottomRight,
+                child: (order.status != 'cancel')
+                  ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(color: color,borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        
                           hint: Text(order.status),
                           items: <String>['processing', 'shipped', 'delivered']
                               .map((String value) {
@@ -192,14 +202,10 @@ class OrderInfo extends StatelessWidget {
                           onChanged: (value) {
                             _orderController.changeStatus(order, value!);
                           },
-                        )
-                      : SizedBox(),
-                  Text(
-                    order.status,
-                    style: TextStyle(color: color),
+                        ),
+                    ),
                   )
-                ],
-              ),
+                  : const SizedBox(),)
             ],
           ),
         ),

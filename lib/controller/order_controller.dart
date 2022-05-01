@@ -16,6 +16,7 @@ class OrderController extends GetxController {
   List<OrderModel> allOrder = [];
   int totalProduct = 0;
   double totalProfit = 0;
+  bool isLoading = true;
 
   void getAllOrder() async {
     allOrder.clear();
@@ -29,6 +30,7 @@ class OrderController extends GetxController {
   }
 
   getOrders() async {
+    isLoading = true;
     processingOrder.clear();
     cancelOrder.clear();
     deliveredOrder.clear();
@@ -50,8 +52,9 @@ class OrderController extends GetxController {
         shippedOrder.add(item);
       }
     }
-    update();
     getTotalProfit();
+    isLoading = false;
+    update();
   }
 
   void changeStatus(OrderModel model, String currentStatus) async {
@@ -115,7 +118,7 @@ class OrderController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getOrders();
     getTotalProduct();
+    getOrders();
   }
 }
