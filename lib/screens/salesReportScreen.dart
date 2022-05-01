@@ -75,10 +75,12 @@ class SalesReportScreen extends StatelessWidget {
                       icon: const Icon(Icons.calendar_month)),
                 ],
               ),
+             const Divider(thickness: 1,),
               Expanded(
                 child: GetBuilder<OrderController>(
                   builder: (controller) {
-                    if (controller.allOrder.isEmpty) {
+                    if (controller.isLoading == false) {
+                      if (controller.allOrder.isEmpty) {
                       return const Center(
                         child: Text('No Orders Found'),
                       );
@@ -86,30 +88,32 @@ class SalesReportScreen extends StatelessWidget {
                       return DataTable2(
                         columnSpacing: 12,
                         horizontalMargin: 12,
-                        minWidth: 600,
+                        minWidth: 900,
+                        smRatio: 0.5,
+                        lmRatio: 3,
                         columns: const [
                           DataColumn2(
-                            label: Text('Sl No'),
+                            label: Center(child: Text('Sl No')),
                             size: ColumnSize.S,
                           ),
                           DataColumn2(
-                            label: Text('Order Id'),
+                            label: Center(child: Text('Order Id')),
                             size: ColumnSize.L,
                           ),
                           DataColumn2(
-                            label: Text('User Id'),
+                            label: Center(child: Text('User Id')),
                             size: ColumnSize.L,
                           ),
-                          DataColumn(
-                            label: Text('Payment'),
+                          DataColumn2(
+                            label: Center(child: Text('Payment')),size: ColumnSize.M
                           ),
                           DataColumn2(
-                            label: Text('Amount'),
+                            label: Center(child: Text('Amount')),
                             size: ColumnSize.M,
                             // numeric: true,
                           ),
                           DataColumn2(
-                            label: Text('Date'),
+                            label: Center(child: Text('Date')),
                             size: ColumnSize.M,
                             // numeric: true,
                           ),
@@ -135,6 +139,11 @@ class SalesReportScreen extends StatelessWidget {
                             )),
                           ]);
                         }));
+                    }
+                    } else {
+                      return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                     }
                   },
                 ),

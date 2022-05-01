@@ -47,7 +47,6 @@ class HomeScreen extends StatelessWidget {
                 color: appBarColor,
               ),
               Container(
-                // height: double.infinity,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                     color: Colors.white,
@@ -108,7 +107,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                       kHeight18,
                       GetBuilder<OrderController>(
-                       
                         builder: (_order) {
                           return ListView.builder(
                               shrinkWrap: true,
@@ -120,8 +118,9 @@ class HomeScreen extends StatelessWidget {
                                   title: Text(
                                       _order.processingOrder[index].orderId
                                           .toString(),
-                                      style:
-                                          const TextStyle(color: Colors.grey)),
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          overflow: TextOverflow.ellipsis)),
                                 );
                               }));
                         },
@@ -150,7 +149,7 @@ class CardBetween extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      // color: Colors.grey.shade100,
+      color: Colors.grey.shade100,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
         child: Row(

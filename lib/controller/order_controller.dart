@@ -19,6 +19,7 @@ class OrderController extends GetxController {
   bool isLoading = true;
 
   void getAllOrder() async {
+    isLoading = true;
     allOrder.clear();
     final orderCollection = await _db.collection('orders').get();
     List<OrderModel> listOrder =
@@ -26,6 +27,7 @@ class OrderController extends GetxController {
     for (var item in listOrder) {
       allOrder.add(item);
     }
+    isLoading = false;
     update();
   }
 
