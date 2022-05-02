@@ -1,6 +1,7 @@
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/firebase/database.dart';
 import 'package:admin_plantshopee/model/plantModel.dart';
+import 'package:admin_plantshopee/utils/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -193,8 +194,9 @@ class AddProduct extends StatelessWidget {
       price: double.parse(price),
       quantity: int.parse(quantity),
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Adding Product Please wait')));
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(content: Text('Adding Product Please wait')));
+    toast(context, 'Adding Product Please wait');
     await addProduct(plant, image!).whenComplete(() => Navigator.pop(context));
   }
 
@@ -207,10 +209,12 @@ class AddProduct extends StatelessWidget {
     data!.description = description;
     data!.price = double.parse(price);
     data!.quantity = int.parse(quantity);
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Updating Product Please wait')));
-    await updateProduct(data!, image)
-        .whenComplete(() => Navigator.pop(context));
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(content: Text('Updating Product Please wait')));
+    toast(context,'Updating Product Please wait');
+    await updateProduct(data!, image).whenComplete(() {
+      Navigator.pop(context);
+      // toast(context, 'Product Updated Successfully');
+    });
   }
-
 }

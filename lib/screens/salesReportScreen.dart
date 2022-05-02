@@ -69,81 +69,106 @@ class SalesReportScreen extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                      onPressed: ()  {
-                       pickDateRange(context);
+                      onPressed: () {
+                        pickDateRange(context);
                       },
                       icon: const Icon(Icons.calendar_month)),
                 ],
               ),
-             const Divider(thickness: 1,),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 15, left: 10, right: 20, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                   const Text('Total Profit',style: TextStyle(fontSize: 16),),
+                    Text(_controller.totalProfit.toString(),style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w800,overflow: TextOverflow.ellipsis),)
+                  ],
+                ),
+              ),
+              const Divider(
+                thickness: 1,
+              ),
               Expanded(
                 child: GetBuilder<OrderController>(
                   builder: (controller) {
                     if (controller.isLoading == false) {
                       if (controller.allOrder.isEmpty) {
+                        return const Center(
+                          child: Text('No Orders Found'),
+                        );
+                      } else {
+                        return DataTable2(
+                            columnSpacing: 12,
+                            horizontalMargin: 12,
+                            minWidth: 900,
+                            smRatio: 0.5,
+                            lmRatio: 3,
+                            columns: const [
+                              DataColumn2(
+                                label: Center(child: Text('Sl No')),
+                                size: ColumnSize.S,
+                              ),
+                              DataColumn2(
+                                label: Center(child: Text('Order Id')),
+                                size: ColumnSize.L,
+                              ),
+                              DataColumn2(
+                                label: Center(child: Text('User Id')),
+                                size: ColumnSize.L,
+                              ),
+                              DataColumn2(
+                                  label: Center(child: Text('Payment')),
+                                  size: ColumnSize.M),
+                              DataColumn2(
+                                label: Center(child: Text('Amount')),
+                                size: ColumnSize.M,
+                                // numeric: true,
+                              ),
+                               DataColumn2(
+                                label: Center(child: Text('Status')),
+                                size: ColumnSize.M,
+                                // numeric: true,
+                              ),
+                              DataColumn2(
+                                label: Center(child: Text('Date')),
+                                size: ColumnSize.M,
+                                // numeric: true,
+                              ),
+                            ],
+                            rows: List<DataRow>.generate(
+                                controller.allOrder.length, (index) {
+                              final order = controller.allOrder[index];
+                              return DataRow(cells: [
+                                DataCell(Center(child: Text('${index + 1}'))),
+                                DataCell(Center(
+                                  child: Text(
+                                    order.orderId!,
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                )),
+                                DataCell(Center(
+                                  child: Text(
+                                    order.userId!,
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                )),
+                                DataCell(Center(child: Text(order.payment))),
+                                DataCell(Center(child: Text('₹ ${order.totalPrice}'))),
+                                DataCell(Center(child: Text(order.status))),
+                                DataCell(Center(
+                                  child: Text(
+                                    order.createdDate.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )),
+                              ]);
+                            }));
+                      }
+                    } else {
                       return const Center(
-                        child: Text('No Orders Found'),
+                        child: CircularProgressIndicator(),
                       );
-                    } else {
-                      return DataTable2(
-                        columnSpacing: 12,
-                        horizontalMargin: 12,
-                        minWidth: 900,
-                        smRatio: 0.5,
-                        lmRatio: 3,
-                        columns: const [
-                          DataColumn2(
-                            label: Center(child: Text('Sl No')),
-                            size: ColumnSize.S,
-                          ),
-                          DataColumn2(
-                            label: Center(child: Text('Order Id')),
-                            size: ColumnSize.L,
-                          ),
-                          DataColumn2(
-                            label: Center(child: Text('User Id')),
-                            size: ColumnSize.L,
-                          ),
-                          DataColumn2(
-                            label: Center(child: Text('Payment')),size: ColumnSize.M
-                          ),
-                          DataColumn2(
-                            label: Center(child: Text('Amount')),
-                            size: ColumnSize.M,
-                            // numeric: true,
-                          ),
-                          DataColumn2(
-                            label: Center(child: Text('Date')),
-                            size: ColumnSize.M,
-                            // numeric: true,
-                          ),
-                        ],
-                        rows: List<DataRow>.generate(controller.allOrder.length,
-                            (index) {
-                          final order = controller.allOrder[index];
-                          return DataRow(cells: [
-                            DataCell(Text('${index + 1}')),
-                            DataCell(Text(
-                              order.orderId!,
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                            DataCell(Text(
-                              order.userId!,
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                            DataCell(Text(order.payment)),
-                            DataCell(Text('₹ ${order.totalPrice}')),
-                            DataCell(Text(
-                              order.createdDate.toString(),
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                          ]);
-                        }));
-                    }
-                    } else {
-                      return const Center(
-                    child: CircularProgressIndicator(),
-                  );
                     }
                   },
                 ),

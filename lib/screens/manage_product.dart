@@ -23,32 +23,37 @@ class ProducrScreen extends StatelessWidget {
         padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
         child: Column(
           children: [
+           const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
                   'All Products',
-                  style: subHeading,
+                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),
                 ),
-                ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
+                TextButton(onPressed: () {
+                  Navigator.of(context).push(
+                       MaterialPageRoute(builder: (ctx) => AddProduct()));
+                }, child: const Text('Add Product'))
+                // ElevatedButton(
+                //     style: ButtonStyle(
+                //         backgroundColor:
+                //             MaterialStateProperty.all(Color.fromARGB(255, 62, 167, 66)),
+                //         shape:
+                //             MaterialStateProperty.all<RoundedRectangleBorder>(
+                //                 RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(18.0),
 
-                          // side: BorderSide(color: Colors.red)
-                        ))),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (ctx) => AddProduct()));
-                    },
-                    child: const Text('Add Product'))
+                //           // side: BorderSide(color: Colors.red)
+                //         ))),
+                //     onPressed: () {
+                //       Navigator.of(context).push(
+                //           MaterialPageRoute(builder: (ctx) => AddProduct()));
+                //     },
+                //     child: const Text('Add Product'))
               ],
             ),
-            kHeight12,
+            kHeight18,
             Expanded(
                 child: StreamBuilder<List<PlantModel>>(
                     stream: readPlants(),

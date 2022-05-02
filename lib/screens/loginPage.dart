@@ -1,5 +1,7 @@
 import 'package:admin_plantshopee/constance/constance.dart';
 import 'package:admin_plantshopee/screens/homeScreen.dart';
+import 'package:admin_plantshopee/utils/snackbar.dart';
+import 'package:admin_plantshopee/utils/toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,8 +9,9 @@ import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -58,30 +61,51 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                       height: size.height * 0.06,
                     ),
-                    TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          hintText: 'Enter the Email Id',
-                          filled: true,
-                          fillColor: Colors.grey.shade300,
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)))),
-                    ),
-                    kHeight18,
-                    TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          hintText: 'Enter the Password',
-                          filled: true,
-                          fillColor: Colors.grey.shade300,
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)))),
-                    ),
+                    Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.email),
+                                  hintText: 'Enter the Email',
+                                  filled: true,
+                                  fillColor: Colors.grey.shade300,
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10)))),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter email Id';
+                                }
+                                return null;
+                              },
+                            ),
+                            kHeight18,
+                            TextFormField(
+                              controller: _passwordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.key),
+                                  hintText: 'Enter the Password',
+                                  filled: true,
+                                  fillColor: Colors.grey.shade300,
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10)))),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter password';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        )),
                     const SizedBox(
                       height: 30,
                     ),
@@ -89,8 +113,12 @@ class LoginPage extends StatelessWidget {
                       width: size.width,
                       height: 45,
                       child: ElevatedButton(
-                        onPressed: () {
-                          logIn();
+                        
+                        onPressed: () async {
+                         if (_formKey.currentState!.validate()) {
+                            String res = await logIn();
+                          toast(context, res);
+                         }
                         },
                         child: const Text(
                           "Login",
@@ -99,7 +127,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.blue)),
+                                MaterialStateProperty.all(themeColor)),
                       ),
                     ),
                     const SizedBox(
@@ -115,21 +143,32 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  logIn() async {
+  Future<String> logIn() async {
     String? token = await FirebaseMessaging.instance.getToken();
+    String resp = 'Please Wait';
     try {
-       FirebaseAuth.instance
+      FirebaseAuth.instance
           .signInWithEmailAndPassword(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim())
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
           .then((value) {
         FirebaseFirestore.instance
             .collection('admin')
             .doc('admin')
             .set({'token': token});
+        resp = 'Loged In Successfuly';
       });
-    } on FirebaseAuthException catch (e) {
-      print(e);
+    } on FirebaseAuthException catch (err) {
+      if (err.code == 'invalid-email') {
+        resp = 'Invalid email or password';
+      }
+      if (err.code == 'user-not-found') {
+        resp = 'User not found';
+      }
+      if (err.code == 'invalid-email') {
+        resp = 'Invalid emial address';
+      }
     }
+    return resp;
   }
 }

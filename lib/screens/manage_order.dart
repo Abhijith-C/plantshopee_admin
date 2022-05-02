@@ -182,30 +182,39 @@ class OrderInfo extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: (order.status != 'cancel')
-                  ? Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(color: color,borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                   Text(
+                    order.userName,
+                    style: const TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w600),
+                  ),
+                  (order.status != 'cancel')
+                      ? Container(
                         
-                          hint: Text(order.status),
-                          items: <String>['processing', 'shipped', 'delivered']
-                              .map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            _orderController.changeStatus(order, value!);
-                          },
+                        decoration: BoxDecoration(color: color,borderRadius: const BorderRadius.all(Radius.circular(12))),
+                        padding:const EdgeInsets.symmetric(horizontal:10),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            
+                              hint: Text(order.status),
+                              items: <String>['processing', 'shipped', 'delivered']
+                                  .map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                _orderController.changeStatus(order, value!);
+                              },
+                            ),
                         ),
-                    ),
-                  )
-                  : const SizedBox(),)
+                      )
+                      : const SizedBox(),
+                 
+                ],
+              ),
             ],
           ),
         ),

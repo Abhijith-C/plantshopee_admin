@@ -10,6 +10,7 @@ class OrderModel {
   String status;
   double totalPrice;
   String payment;
+  String userName;
   OrderModel({
     this.userId,
     this.orderId,
@@ -19,6 +20,7 @@ class OrderModel {
     required this.status,
     required this.totalPrice,
     required this.payment,
+    required this.userName
   });
 
   Map<String, dynamic> toJson() {
@@ -30,7 +32,8 @@ class OrderModel {
       'status': status,
       'payment': payment,
       'totalPrice': totalPrice,
-      'cartModel': cartModel.toJson()
+      'cartModel': cartModel.toJson(),
+      'userName' :userName
     };
   }
 
@@ -38,11 +41,12 @@ class OrderModel {
     return OrderModel(
         userId: map['userId'],
         orderId: map['orderId'],
-        createdDate:DateTime.fromMillisecondsSinceEpoch(map['createdDate']),
+        createdDate: DateTime.fromMillisecondsSinceEpoch(map['createdDate']),
         address: AddressModel.fromJson(map['address']),
         status: map['status'] ?? '',
         totalPrice: map['totalPrice'] ?? '',
         cartModel: CartModel.fromJson(map['cartModel']),
-        payment: map['payment'] ?? '');
+        payment: map['payment'] ?? '',
+        userName: map['userName']);
   }
 }

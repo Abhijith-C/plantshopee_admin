@@ -108,21 +108,42 @@ class HomeScreen extends StatelessWidget {
                       kHeight18,
                       GetBuilder<OrderController>(
                         builder: (_order) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              itemCount: _order.processingOrder.length,
-                              itemBuilder: ((context, index) {
-                                return ListTile(
-                                  leading: const Icon(Icons.star_border),
-                                  title: Text(
-                                      _order.processingOrder[index].orderId
-                                          .toString(),
-                                      style: const TextStyle(
+                          if (_order.isLoading == true) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (_order.processingOrder.isEmpty) {
+                            return const Center(
+                                child: Text('No new orders found'));
+                          } else {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                primary: false,
+                                itemCount: _order.processingOrder.length,
+                                itemBuilder: ((context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Icon(
+                                          Icons.star_outline,
                                           color: Colors.grey,
-                                          overflow: TextOverflow.ellipsis)),
-                                );
-                              }));
+                                        ),
+                                        Text(
+                                            _order
+                                                .processingOrder[index].orderId
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: Colors.grey,
+                                                overflow:
+                                                    TextOverflow.ellipsis)),
+                                      ],
+                                    ),
+                                  );
+                                }));
+                          }
                         },
                       )
                     ],

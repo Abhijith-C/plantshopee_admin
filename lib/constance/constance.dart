@@ -9,3 +9,4 @@ const subHeading = TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
 const btnRed = Color.fromARGB(255, 236, 119, 110);
 const bgCard = Color.fromARGB(255, 251, 251, 251);
 const scaffoldColor = Colors.white;
+const themeColor = Color(0xFF184A2C);

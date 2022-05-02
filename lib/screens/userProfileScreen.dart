@@ -56,56 +56,54 @@ class UserProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // kHeight12,
-            // UserAddress(),
             kHeight18,
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.36,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                 const Color.fromARGB(255, 23, 147, 168)),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
+            // Expanded(
+            //   child: Align(
+            //     alignment: Alignment.bottomRight,
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //       children: [
+            //         SizedBox(
+            //           width: size.width * 0.36,
+            //           child: ElevatedButton(
+            //               style: ButtonStyle(
+            //                   backgroundColor: MaterialStateProperty.all(
+            //                      const Color.fromARGB(255, 23, 147, 168)),
+            //                   shape: MaterialStateProperty.all<
+            //                           RoundedRectangleBorder>(
+            //                       RoundedRectangleBorder(
+            //                     borderRadius: BorderRadius.circular(18.0),
 
-                                // side: BorderSide(color: Colors.red)
-                              ))),
-                          onPressed: () {
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (ctx) => const ProducrScreen()));
-                          },
-                          child: const Text('Message')),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.36,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(btnRed),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
+            //                     // side: BorderSide(color: Colors.red)
+            //                   ))),
+            //               onPressed: () {
+            //                 // Navigator.of(context).push(MaterialPageRoute(
+            //                 //     builder: (ctx) => const ProducrScreen()));
+            //               },
+            //               child: const Text('Message')),
+            //         ),
+            //         SizedBox(
+            //           width: size.width * 0.36,
+            //           child: ElevatedButton(
+            //               style: ButtonStyle(
+            //                   backgroundColor:
+            //                       MaterialStateProperty.all(btnRed),
+            //                   shape: MaterialStateProperty.all<
+            //                           RoundedRectangleBorder>(
+            //                       RoundedRectangleBorder(
+            //                     borderRadius: BorderRadius.circular(18.0),
 
-                                // side: BorderSide(color: Colors.red)
-                              ))),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Block')),
-                    ),
-                  ],
-                ),
-              ),
-            )
+            //                     // side: BorderSide(color: Colors.red)
+            //                   ))),
+            //               onPressed: () {
+            //                 Navigator.of(context).pop();
+            //               },
+            //               child: const Text('Block')),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

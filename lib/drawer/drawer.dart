@@ -3,8 +3,7 @@ import 'package:admin_plantshopee/screens/help_screen.dart';
 import 'package:admin_plantshopee/screens/homeScreen.dart';
 import 'package:admin_plantshopee/screens/manageUsersScreen.dart';
 import 'package:admin_plantshopee/screens/manage_order.dart';
-
-import 'package:admin_plantshopee/screens/productScreen.dart';
+import 'package:admin_plantshopee/screens/manage_product.dart';
 import 'package:admin_plantshopee/screens/salesReportScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +67,7 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) =>  ProducrScreen()));
+                  MaterialPageRoute(builder: (ctx) => const ProducrScreen()));
             },
           ),
           ListTile(
@@ -90,18 +89,7 @@ class CustomDrawer extends StatelessWidget {
                       ));
             },
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.local_shipping),
-          //   title: const Text('Shipment Details'),
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //     // Navigator.of(context).push(MaterialPageRoute(
-          //     //     builder: (ctx) => OrderScreen(
-          //     //           title: 'Shipped',
-          //     //           appBarTitle: 'Shipment Details',
-          //     //         )));
-          //   },
-          // ),
+         
           // ListTile(
           //   leading: const Icon(Icons.notification_add),
           //   title: const Text('Send Notificatons'),
@@ -124,8 +112,8 @@ class CustomDrawer extends StatelessWidget {
             thickness: 1,
           ),
           ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+            leading: const Icon(Icons.account_circle_rounded),
+            title: const Text('About'),
             onTap: () {
               Navigator.pop(context);
               // Update the state of the app.
