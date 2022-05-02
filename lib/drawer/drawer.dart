@@ -27,8 +27,7 @@ class CustomDrawer extends StatelessWidget {
                 children: const [
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage: NetworkImage(
-                        'https://images.pexels.com/photos/1002703/pexels-photo-1002703.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                    backgroundImage: AssetImage('assets/images/logo.png'),
                   ),
                   SizedBox(
                     height: 10,
