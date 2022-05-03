@@ -34,8 +34,10 @@ class ComplaintScreen extends StatelessWidget {
                                   id: orderId,
                                 )));
                       },
-                      leading: Icon(Icons.account_box),
-                      title: Text(orderId),
+                      leading: const Icon(Icons.report,size: 40,),
+                      title: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(orderId)),
                     );
                   });
             }

@@ -48,7 +48,7 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Dashboard'),
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (ctx) =>  HomeScreen()),
+                  MaterialPageRoute(builder: (ctx) => HomeScreen()),
                   (route) => false);
             },
           ),
@@ -56,8 +56,8 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.scale),
             title: const Text('Sales Report'),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) =>  SalesReportScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => SalesReportScreen()));
             },
           ),
           ListTile(
@@ -74,8 +74,8 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Manage Users'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) =>  ManageUsersScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => ManageUsersScreen()));
             },
           ),
           ListTile(
@@ -84,11 +84,10 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) => MyOrder()
-                      ));
+                  .push(MaterialPageRoute(builder: (ctx) => MyOrder()));
             },
           ),
-         
+
           // ListTile(
           //   leading: const Icon(Icons.notification_add),
           //   title: const Text('Send Notificatons'),
@@ -115,6 +114,7 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('About'),
             onTap: () {
               Navigator.pop(context);
+              _showAbout(context);
               // Update the state of the app.
               // ...
             },
@@ -140,4 +140,21 @@ class CustomDrawer extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<dynamic> _showAbout(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AboutDialog(
+        applicationName: "Plant Shopee",
+        applicationVersion: "Version 1.0.0",
+        applicationIcon: Image.asset(
+          'assets/images/logo.png',
+          width: 60.0,
+          height: 60.0,
+        ),
+      );
+    },
+  );
 }

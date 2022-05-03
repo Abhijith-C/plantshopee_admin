@@ -18,7 +18,7 @@ class ChatContainer extends StatelessWidget {
           margin: const EdgeInsets.all(16),
           constraints: const BoxConstraints(maxWidth: 200),
           decoration: BoxDecoration(
-            color: !isMe ? Colors.black : Colors.orange,
+            color: !isMe ? Colors.grey.shade600 : Colors.grey.shade800,
             borderRadius: const BorderRadius.all(Radius.circular(12))
           ),
           child: Text(message,style: const TextStyle(color: Colors.white,),)

@@ -113,12 +113,16 @@ class LoginPage extends StatelessWidget {
                       width: size.width,
                       height: 45,
                       child: ElevatedButton(
-                        
                         onPressed: () async {
-                         if (_formKey.currentState!.validate()) {
-                            String res = await logIn();
-                          toast(context, res);
-                         }
+                          if (_formKey.currentState!.validate()) {
+                            if (_passwordController.text.trim() == 'Admin123') {
+                              String res = await logIn();
+                              toast(context, res);
+                            } else {
+                              toast(context,
+                                  'Please check you username or password',status: false);
+                            }
+                          }
                         },
                         child: const Text(
                           "Login",

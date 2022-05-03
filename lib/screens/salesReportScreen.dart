@@ -22,7 +22,7 @@ class SalesReportScreen extends StatelessWidget {
           title: const Text('Sales Report'),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Row(
@@ -76,8 +76,7 @@ class SalesReportScreen extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 10, right: 20, bottom: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

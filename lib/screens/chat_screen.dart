@@ -23,7 +23,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _notificationController.updateToken(userId);
-    // Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -36,19 +36,22 @@ class ChatScreen extends StatelessWidget {
             width: double.infinity,
             child: Stack(
               children: [
-                Container(width: double.infinity,height: 200,color: Colors.blue,),
+                Container(width: double.infinity,height: size.height*0.3,color: Colors.blue,),
                 Padding(
                   padding: const EdgeInsets.only(left:8.0,),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                    Text("User id : $userId"),
-                   const SizedBox(height: 10,),
-                  Text('Order id : $id'),
-                  ],),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      Text("User id : $userId"),
+                     const SizedBox(height: 10,),
+                    Text('Order id : $id'),
+                    ],),
+                  ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 80),
+                  margin:  EdgeInsets.only(top: size.height*0.07),
                   height: double.infinity,
                   width: double.infinity,
                   decoration: const BoxDecoration(

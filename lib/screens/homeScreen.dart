@@ -123,9 +123,10 @@ class HomeScreen extends StatelessWidget {
                                 itemBuilder: ((context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    child: Wrap(
+                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                      alignment: WrapAlignment.center,
+                                      spacing: 20,
                                       children: [
                                         const Icon(
                                           Icons.star_outline,
