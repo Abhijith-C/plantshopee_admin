@@ -26,7 +26,7 @@ class NotificationController extends GetxController {
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization':
-              'key=AAAAIKmX-WU:APA91bHgjFnEgIjresBqIwX4Dhk5LP7pAj5FVu8De79uVo0bdsZUu4UtCLppMBqipH789fnEAsdx9o0A4MTgLtKHLbREZIcEa_7EwvFxnu5jxxBaxFGDNM9mlZU2lecA5yF4ZJVrv_C8',
+              'key=',
         },
         body: jsonEncode(
           <String, dynamic>{
